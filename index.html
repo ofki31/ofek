@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ניהול חפיפה</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iP3s+zYrHJ9sVKrLZ7+8W4WUn1WYw42bR1xyprJooKpQ1GZPi+HS4mxUSsyRUCz7WZFnpHyP7J+e1fB+92+WOW==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container header-content">
+      <div class="header-right">
+        <button class="header-icon-btn" id="info-btn" title="מידע כלל">
+          <i class="fas fa-info-circle"></i>
+        </button>
+        <button class="header-icon-btn" id="contacts-btn" title="אנשי קשר">
+          <i class="fas fa-address-book"></i>
+        </button>
+        <button class="header-icon-btn" id="history-btn" title="היסטוריית תקלות">
+          <i class="fas fa-history"></i>
+        </button>
+      </div>
+      <a href="#" class="logo">
+        <i class="fas fa-exchange-alt"></i>
+        <h1>ניהול חפיפה</h1>
+      </a>
+      <nav>
+        <ul>
+          <li><a href="#" class="active">בית</a></li>
+          <li class="dark-mode-container">
+            <label class="dark-mode-switch">
+              <input type="checkbox" id="dark-mode-toggle">
+              <span class="dark-mode-slider">
+                <i class="fas fa-sun light-icon"></i>
+                <i class="fas fa-moon dark-icon"></i>
+              </span>
+              <span class="dark-mode-label">מצב כהה</span>
+            </label>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Dashboard -->
+  <section class="dashboard-section">
+    <div class="container">
+      <h2 class="section-title">דשבורד ניהול חפיפה</h2>
+      <div class="main-table-tabs">
+        <div id="main-table-tabs-list" class="main-table-tabs-list"></div>
+        <button id="add-new-main-table" class="add-table-button">
+          <i class="fas fa-plus"></i> הוסף טבלה חדשה
+        </button>
+      </div>
+      <div class="main-active-table-container">
+        <div class="main-table-controls">
+          <input type="text" id="main-table-name" class="table-name-input" placeholder="שם הטבלה">
+          <button id="main-edit-columns" class="edit-columns-button">
+            <i class="fas fa-columns"></i> ערוך עמודות
+          </button>
+          <button id="main-add-row" class="add-row-button">
+            <i class="fas fa-plus"></i> הוסף תקלה / מידע
+          </button>
+        </div>
+        <div id="main-table-wrapper" class="table-wrapper">
+          <table id="main-task-table" class="editable-table">
+            <thead id="main-table-headers"><tr></tr></thead>
+            <tbody id="main-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modals -->
+  <!-- Info Modal -->
+  <div id="info-modal" class="modal">
+    <div class="modal-content medium">
+      <div class="modal-header">
+        <h3>מידע כלל</h3>
+        <button id="close-info-modal" class="close-modal"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="info-content">
+          <label for="info-title">כותרת המידע</label>
+          <input id="info-title" class="input-field" type="text" placeholder="הזן כותרת">
+          <label for="info-content">תוכן המידע</label>
+          <textarea id="info-content" class="input-field info-textarea" rows="6" placeholder="הזן תוכן"></textarea>
+          <button id="save-info" class="action-button primary">שמור מידע</button>
+          <button id="cancel-info" class="action-button secondary">ביטול</button>
+        </div>
+        <div class="saved-info-list">
+          <h4>מידע שמור</h4>
+          <div id="info-items-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contacts Modal -->
+  <div id="contacts-modal" class="modal">
+    <div class="modal-content medium">
+      <div class="modal-header">
+        <h3>אנשי קשר</h3>
+        <button id="close-contacts-modal" class="close-modal"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <label for="contact-name">שם איש הקשר</label>
+        <input id="contact-name" class="input-field" type="text" placeholder="הזן שם">
+        <label for="contact-phone">מספר טלפון</label>
+        <input id="contact-phone" class="input-field" type="tel" placeholder="הזן טלפון">
+        <button id="add-contact" class="action-button primary">הוסף איש קשר</button>
+        <div class="contacts-table-wrapper">
+          <table id="contacts-table" class="contacts-table">
+            <thead><tr><th>שם</th><th>טלפון</th><th>פעולות</th></tr></thead>
+            <tbody id="contacts-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- History Modal -->
+  <div id="history-modal" class="modal">
+    <div class="modal-content fullscreen">
+      <div class="modal-header">
+        <h3>היסטוריית תקלות סגורות</h3>
+        <button id="close-history-modal" class="close-modal"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <label for="search-text">חיפוש לפי תוכן</label>
+        <input id="search-text" class="input-field" type="text" placeholder="הקלד לחיפוש">
+        <label for="search-date">חיפוש לפי תאריך</label>
+        <input id="search-date" class="input-field" type="date">
+        <button id="clear-search" class="action-button secondary">נקה חיפוש</button>
+        <div class="history-table-wrapper">
+          <table id="history-table" class="editable-table">
+            <thead><tr>
+              <th>קטגוריה</th><th>תקלה/מידע</th><th>תאריך ושעה</th>
+              <th>טכנאי פותח</th><th>תוכן תקלה</th><th>תוכן העדכון</th><th>תאריך סגירה</th>
+            </tr></thead>
+            <tbody id="history-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Table Modal -->
+  <div id="new-table-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>הוסף טבלה חדשה</h3>
+        <button id="close-new-table-modal" class="close-modal"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <label for="new-table-name">שם הטבלה</label>
+        <input id="new-table-name" class="input-field" type="text" placeholder="הזן שם">
+        <button id="create-table" class="action-button primary">צור טבלה</button>
+        <button id="cancel-create-table" class="action-button secondary">ביטול</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Columns Modal -->
+  <div id="edit-columns-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>ערוך עמודות</h3>
+        <button id="close-edit-columns-modal" class="close-modal"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <div id="columns-list" class="columns-list"></div>
+        <label for="new-column-name">הוסף עמודה חדשה</label>
+        <input id="new-column-name" class="input-field" type="text" placeholder="שם העמודה">
+        <button id="add-column" class="action-button primary">הוסף</button>
+        <button id="save-columns" class="action-button primary">שמור שינויים</button>
+        <button id="cancel-edit-columns" class="action-button secondary">ביטול</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
